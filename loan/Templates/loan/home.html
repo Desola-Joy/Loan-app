@@ -1,0 +1,40 @@
+{% extends "loan/base.html" %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>Loan Repayment Calculator</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <input type="text" name="borrower_name" placeholder="Borrower Name">
+
+        <input type="number" name="loan_amount" placeholder="Loan Amount">
+
+        <input type="number" step="0.01" name="interest_rate" placeholder="Interest Rate">
+
+        <input type="number" name="repayment_amount" placeholder="Repayment Amount">
+
+        <select name="repayment_method">
+
+            <option value="monthly">Monthly</option>
+            <option value="weekly">Weekly</option>
+            <option value="daily">Daily</option>
+
+        </select>
+
+        <input type="text" name="bank_name" placeholder="Bank Name">
+
+        <input type="text" name="account_number" placeholder="Account Number">
+
+        <button type="submit">
+            Calculate Loan
+        </button>
+
+    </form>
+</div>
+
+{% endblock %}

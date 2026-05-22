@@ -1,0 +1,71 @@
+{% extends "loan/base.html" %}
+
+{% block content %}
+
+<h2>Your Loan History</h2>
+
+{% for loan in loans %}
+    <div class="card">
+
+        <p><strong>Borrower:</strong> {{ loan.borrower_name }}</p>
+        <p><strong>Amount:</strong> {{ loan.loan_amount }}</p>
+        <p><strong>Interest Rate:</strong> {{ loan.interest_rate }}</p>
+        <p><strong>Remaining:</strong> {{ loan.remaining_balance }}</p>
+
+        <form method="POST" action="{% url 'delete_loan' loan.id %}">
+            {% csrf_token %}
+            <button type="submit" style="background:red;color:white;">
+                Delete
+            </button>
+        </form>
+
+    </div>
+    <hr>
+        {% empty %}
+            <p>No loan history yet.</p>
+        {% endfor %}
+
+    <hr>
+
+<h2>Latest Loan</h2>
+
+{% if latest %}
+    <p><strong>{{ latest.borrower_name }}</strong></p>
+    <p>Remaining: {{ latest.remaining_balance }}</p>
+{% else %}
+    <p>No latest loan</p>
+{% endif %}
+
+<h3>Payment Schedule (Latest Loan)</h3>
+
+{% if schedule %}
+<table border="1">
+    <tr>
+        <th>Month</th>
+        <th>Opening</th>
+        <th>Interest</th>
+        <th>Principal</th>
+        <th>Payment</th>
+        <th>Closing</th>
+    </tr>
+
+    {% for row in schedule %}
+    <tr>
+        <td>{{ row.month }}</td>
+        <td>{{ row.balance }}</td>
+        <td>{{ row.interest }}</td>
+        <td>{{ row.principal }}</td>
+        <td>{{ row.payment }}</td>
+        <td>{{ row.closing_balance }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No schedule available</p>
+{% endif %}
+
+<a href="{% url 'home' %}">
+    <button>Back to Calculator</button>
+</a>
+
+{% endblock %}
